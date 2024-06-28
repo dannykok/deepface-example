@@ -24,6 +24,7 @@ def scan_video(args):
     frame_count = 0
     processed_frame_count = 0
     skip_frames = args.skip_frame  # Process every 5th frame
+    conf_threshold = args.confidence_threshold
 
     while True:
         ret = video_capture.grab()
@@ -44,7 +45,7 @@ def scan_video(args):
             if embeddings is not None:
                 face_found = 0
                 for emb in embeddings:
-                    if emb["face_confidence"] >= 0.95:
+                    if emb["face_confidence"] >= conf_threshold:
                         # save frame_num to dict
                         emb['frame_num'] = frame_count
                         face_encodings.append(emb)
@@ -135,6 +136,8 @@ def arg_parser():
                         default='output_faces', help='Path to save the faces')
     parser.add_argument('--frame_output_dir', type=str, default=None,
                         help='Path to save the frames. Default is None which doesn not save frames')
+    parser.add_argument('--confidence_threshold', type=float, default=0.9,
+                        help='Confidence threshold for face detection')
     return parser.parse_args()
 
 
