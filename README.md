@@ -1,4 +1,4 @@
-# Face Detection and Recognition Project
+# Extracting unique faces in a video
 
 This is an example project that discover and return any unique faces in a given video, using [deepface](https://github.com/serengil/deepface).
 
