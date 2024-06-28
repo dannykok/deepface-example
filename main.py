@@ -102,6 +102,13 @@ def scan_video(args):
         y = encoding['facial_area']['y']
         w = encoding['facial_area']['w']
         h = encoding['facial_area']['h']
+
+        # handle outbound face
+        w = w + x if x < 0 else w
+        h = h + y if y < 0 else h
+        x = x if x > 0 else 0
+        y = y if y > 0 else 0
+
         face = frame[y:y+h, x:x+w]
         print(f"Saving face_{face_id}.jpg")
         cv2.imwrite(f'{face_output_dir}/face_{face_id}.jpg', face)
