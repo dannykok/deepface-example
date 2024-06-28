@@ -21,7 +21,7 @@ This is an example project that discover and return any unique faces in a given 
 ## Installation
 
 ```
-git clone <repository_url>
+git clone https://github.com/dannykok/deepface-example.git
 pip install -r requirements.txt
 ```
 
