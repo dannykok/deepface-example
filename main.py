@@ -46,6 +46,9 @@ def scan_video(args):
                 face_found = 0
                 for emb in embeddings:
                     if emb["face_confidence"] >= conf_threshold:
+                        if emb['facial_area']['left_eye'] is None or emb['facial_area']['right_eye'] is None:
+                            # we want to skip the frame if any of the eyes are not detected to ensure the facing is right
+                            continue
                         # save frame_num to dict
                         emb['frame_num'] = frame_count
                         face_encodings.append(emb)
