@@ -14,12 +14,16 @@ def scan_video(args):
     face_encodings = []
 
     # Create a directory to save the faces
-    output_dir = 'output_faces'
-    os.makedirs(output_dir, exist_ok=True)
+    face_output_dir = args.face_output_dir
+    os.makedirs(face_output_dir, exist_ok=True)
+
+    frame_output_dir = args.frame_output_dir
+    if frame_output_dir is not None:
+        os.makedirs(frame_output_dir, exist_ok=True)
 
     frame_count = 0
     processed_frame_count = 0
-    skip_frames = 12  # Process every 5th frame
+    skip_frames = args.skip_frame  # Process every 5th frame
 
     while True:
         ret = video_capture.grab()
@@ -61,8 +65,9 @@ def scan_video(args):
                         cv2.putText(frame, f"{conf:.2f}", (x, y - 10),
                                     cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 0, 255), 2)
                         # save the frame
-                        cv2.imwrite(
-                            f'output_faces/frame_{frame_count}.jpg', frame)
+                        if frame_output_dir:
+                            cv2.imwrite(
+                                f'{frame_output_dir}/frame_{frame_count}.jpg', frame)
 
     print("Extracting unique faces...")
     # Extract embeddings and remove duplicates
@@ -99,7 +104,7 @@ def scan_video(args):
         h = encoding['facial_area']['h']
         face = frame[y:y+h, x:x+w]
         print(f"Saving face_{face_id}.jpg")
-        cv2.imwrite(f'output_faces/face_{face_id}.jpg', face)
+        cv2.imwrite(f'{face_output_dir}/face_{face_id}.jpg', face)
         face_id += 1
 
     # Release video capture
@@ -117,8 +122,12 @@ def arg_parser():
     parser = argparse.ArgumentParser(
         description='Extract unique faces from a video')
     parser.add_argument('video_path', type=str, help='Path to the video file')
-    parser.add_argument('--frame_rate', type=int, default=1,
-                        help='Frame rate for extracting frames')
+    parser.add_argument('--skip_frame', type=int, default=1,
+                        help='number of frames to be skipped during sampling')
+    parser.add_argument('--face_output_dir', type=str,
+                        default='output_faces', help='Path to save the faces')
+    parser.add_argument('--frame_output_dir', type=str, default=None,
+                        help='Path to save the frames. Default is None which doesn not save frames')
     return parser.parse_args()
 
 
