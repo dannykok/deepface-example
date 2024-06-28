@@ -14,10 +14,9 @@ This is an example project that discover and return any unique faces in a given 
 
 - Python 3.x
 - Necessary Python packages as listed in `requirements.txt`. Install them using the command:
-  ````sh
+  ```sh
   pip install -r requirements.txt
-    ```
-  ````
+  ```
 
 ## Installation
 
