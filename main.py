@@ -1,7 +1,6 @@
 import argparse
 import cv2
 import os
-
 from face_detect import get_face_embeddings, is_same_person
 
 
@@ -120,13 +119,6 @@ def scan_video(args):
 
     # Release video capture
     video_capture.release()
-
-    # Save the frame to the output directory
-    # output_path = os.path.join(output_dir, f"frame_{frame_count:04d}.jpg")
-    # cv2.imwrite(output_path, frame)
-    # frame_count += 1
-
-    # Save the face inside the frame
 
 
 def arg_parser():
